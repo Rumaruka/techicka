@@ -1,8 +1,8 @@
 package com.rumaruka.techicka.init;
 
 import com.rumaruka.techicka.ModSetup;
-import com.rumaruka.techicka.common.modules.thermal.ManaDynamoBlock;
-import com.rumaruka.techicka.common.modules.thermal.ManaDynamoTile;
+import com.rumaruka.techicka.common.modules.thermal.arsnouveau.blocks.ManaDynamoBlock;
+import com.rumaruka.techicka.common.modules.thermal.arsnouveau.tiles.ManaDynamoTile;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;

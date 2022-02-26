@@ -1,6 +1,9 @@
-package com.rumaruka.techicka.common.modules.thermal;
+package com.rumaruka.techicka.common.modules.thermal.bloodmagic.blocks;
 
-import net.minecraft.block.*;
+import com.rumaruka.techicka.common.modules.thermal.bloodmagic.tiles.BloodDynamoTile;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -34,7 +37,7 @@ public class BloodDynamoBlock extends ContainerBlock {
                 if (!heldItem.isEmpty()) {
 
 
-                    if (heldItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null).isPresent() ) {
+                    if (heldItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null).isPresent()) {
                         FluidUtil.interactWithFluidHandler(player, hand, tile.bloodTank);
                         return ActionResultType.SUCCESS;
                     }
@@ -44,7 +47,6 @@ public class BloodDynamoBlock extends ContainerBlock {
         }
         return ActionResultType.SUCCESS;
     }
-
 
 
     @Override

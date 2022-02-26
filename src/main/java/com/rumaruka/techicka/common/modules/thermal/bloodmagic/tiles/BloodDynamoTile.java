@@ -1,30 +1,41 @@
-package com.rumaruka.techicka.common.modules.thermal;
+package com.rumaruka.techicka.common.modules.thermal.bloodmagic.tiles;
 
-import com.hollingsworth.arsnouveau.api.mana.AbstractManaTile;
-import com.hollingsworth.arsnouveau.api.util.ManaUtil;
-import com.rumaruka.techicka.init.TArsNouveau;
+import com.rumaruka.techicka.init.TBloodMagic;
 import com.rumaruka.techicka.utils.CustomEnergyFE;
 import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import wayoftime.bloodmagic.common.block.BloodMagicBlocks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ManaDynamoTile extends AbstractManaTile implements ITickableTileEntity, ICapabilityProvider {
+public class BloodDynamoTile extends TileEntity implements ITickableTileEntity, ICapabilityProvider {
 
-
+    public FluidTank bloodTank;
     public CustomEnergyFE energy = new CustomEnergyFE(1000, 100);
     public boolean markedForUpdate = false;
     public int tickDelay = 10;
-    public int maxMana = 1000;
-    public ManaDynamoTile() {
-        super(TArsNouveau.MANA_DYNAMO_TILE.get());
 
+    public BloodDynamoTile() {
+        super(TBloodMagic.BLOOD_DYNAMO_TILE.get());
+        bloodTank = new FluidTank(2000) {
+            @Override
+            protected void onContentsChanged() {
+                if (!level.isClientSide) {
+                    setChanged();
+                    markedForUpdate = true;
+                }
+            }
+        };
     }
 
     @Override
@@ -42,27 +53,26 @@ public class ManaDynamoTile extends AbstractManaTile implements ITickableTileEnt
                     level.blockUpdated(getBlockPos(), level.getBlockState(getBlockPos()).getBlock());
                 }
             }
-
+            int fluidAmount = bloodTank.getFluidAmount();
             boolean flag = level.hasNeighborSignal(getBlockPos()) || level.hasNeighborSignal(getBlockPos().above());
-                if( ManaUtil.hasManaNearby(this.worldPosition, this.level, 2, 200) ){
-                    ManaUtil.takeManaNearbyWithParticles(this.worldPosition, this.level, 2, 200);
-                    energy.generatePower(10);
-                    markedForUpdate = true;
-                }
 
 
+            if (bloodTank.getFluid().getFluid() == BloodMagicBlocks.LIFE_ESSENCE_FLUID.get() && fluidAmount > 9&&flag) {
+                bloodTank.drain(100, IFluidHandler.FluidAction.EXECUTE);
+                energy.generatePower(10);
+                markedForUpdate = true;
 
             }
 
 
-
+        }
     }
 
 
 
 
     private final LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> energy);
-
+    private final LazyOptional<IFluidHandler> fluid = LazyOptional.of(() -> bloodTank);
 
     @Nonnull
     @Override
@@ -70,23 +80,11 @@ public class ManaDynamoTile extends AbstractManaTile implements ITickableTileEnt
         if (cap == CapabilityEnergy.ENERGY) {
             return energyCap.cast();
         }
-
+        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return fluid.cast();
+        }
 
         return super.getCapability(cap, side);
-    }
-
-
-    @Override
-    public int getTransferRate() {
-        return getMaxMana();
-    }
-
-
-
-
-    @Override
-    public int getMaxMana() {
-        return maxMana;
     }
 
 

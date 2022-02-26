@@ -1,5 +1,6 @@
-package com.rumaruka.techicka.common.modules.thermal;
+package com.rumaruka.techicka.common.modules.thermal.arsnouveau.blocks;
 
+import com.rumaruka.techicka.common.modules.thermal.arsnouveau.tiles.ManaDynamoTile;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
