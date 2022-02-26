@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": { "model": "technom:blocks/itemtransmitter" },
+        "inventory": { "model": "technom:blocks/fab_inv" }
+    }
+}
