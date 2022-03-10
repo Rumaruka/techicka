@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,6 +31,17 @@ public class TMekanism {
     }
 
 
+    public static class BotaniaCompat{
 
+
+    }
+
+    public static class ArsNouveauCompat{
+
+    }
+    public static class BloodMagicCompat{
+
+    }
 
 }
+

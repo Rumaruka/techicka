@@ -43,7 +43,6 @@ public class ManaDynamoTile extends AbstractManaTile implements ITickableTileEnt
                 }
             }
 
-            boolean flag = level.hasNeighborSignal(getBlockPos()) || level.hasNeighborSignal(getBlockPos().above());
                 if( ManaUtil.hasManaNearby(this.worldPosition, this.level, 2, 200) ){
                     ManaUtil.takeManaNearbyWithParticles(this.worldPosition, this.level, 2, 200);
                     energy.generatePower(10);
